@@ -3,8 +3,6 @@ import spacy
 import matplotlib.pyplot as plt
 import pandas as pd
 
-    npl = spacy.download("en_core_web_sm")
-
 # Try loading the SpaCy model
 try:
     nlp = spacy.load("en_core_web_sm")
