@@ -1,5 +1,5 @@
 import spacy
-import scikit-learn
+import sklearn
 from spacy.matcher import Matcher
 from sklearn.metrics import classification_report
 
