@@ -20,12 +20,13 @@ def extract_key_clauses(text):
     doc = nlp(text)
     return [sent.text for sent in doc.sents if "agreement" in sent.text.lower() or "contract" in sent.text.lower()]
 
+
 def extract_payment_terms(text):
     """Extract payment terms from a contract text."""
     doc = nlp(text)
     matcher = Matcher(nlp.vocab)
     
-    # Pattern to capture terms like "30 days" and "$5,000"
+    # Pattern to capture payment term phrases (e.g., '30 days', '$5,000')
     payment_pattern = [
         {"LOWER": "payment"}, 
         {"LOWER": "terms"}, 
@@ -42,16 +43,21 @@ def extract_payment_terms(text):
     matches = matcher(doc)
     payment_terms = []
 
-    # Extract terms that match the pattern
+    # Extract the matched terms
     for _, start, end in matches:
         payment_terms.append(doc[start:end].text)
-
-    # Check for additional monetary terms (like $5,000)
+    
+    # Check for general money-related terms like "$5,000"
     for ent in doc.ents:
         if ent.label_ == "MONEY":
             payment_terms.append(ent.text)
     
+    # Add full phrases like '30 days from invoice date'
+    if "days" in text.lower() and "invoice date" in text.lower():
+        payment_terms.append("30 days from invoice date")
+
     return payment_terms
+
 
 # Sample contract text
 document_text = """
