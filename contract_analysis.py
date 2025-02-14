@@ -21,16 +21,34 @@ def extract_key_clauses(text):
     return [sent.text for sent in doc.sents if "agreement" in sent.text.lower() or "contract" in sent.text.lower()]
 
 def extract_payment_terms(text):
-    """Extract payment terms using SpaCy’s Matcher."""
+    """Extract payment terms from a contract text."""
     doc = nlp(text)
     matcher = Matcher(nlp.vocab)
-    pattern = [{"LOWER": "payment"}, {"LOWER": "terms"}, {"IS_PUNCT": True, "OP": "?"}, {"LOWER": "net"}, {"IS_DIGIT": True}]
+    
+    # Add pattern to match payment terms (e.g., "30 days" or "$5,000")
+    pattern = [
+        {"LOWER": "payment"}, 
+        {"LOWER": "terms"}, 
+        {"IS_PUNCT": True, "OP": "?"}, 
+        {"LOWER": "net"}, 
+        {"IS_DIGIT": True}
+    ]
     matcher.add("PAYMENT_TERMS", [pattern])
     
+    # Apply matcher to the document
     matches = matcher(doc)
     payment_terms = []
+
+    # Extract terms that match the pattern
     for _, start, end in matches:
         payment_terms.append(doc[start:end].text)
+
+    # Check for additional monetary terms (like $5,000)
+    for ent in doc.ents:
+        if ent.label_ == "MONEY":
+            payment_terms.append(ent.text)
+    
+    return payment_terms
     
     # Check for more general terms in the text
     if "days" in text.lower():
