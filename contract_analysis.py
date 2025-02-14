@@ -25,13 +25,15 @@ def extract_payment_terms(text):
     doc = nlp(text)
     matcher = Matcher(nlp.vocab)
     
-    # Add pattern to match payment terms (e.g., "30 days" or "$5,000")
-    pattern = [
+    # Pattern to capture terms like "30 days" and "$5,000"
+    payment_pattern = [
         {"LOWER": "payment"}, 
         {"LOWER": "terms"}, 
         {"IS_PUNCT": True, "OP": "?"}, 
         {"LOWER": "net"}, 
-        {"IS_DIGIT": True}
+        {"IS_DIGIT": True},
+        {"IS_PUNCT": True, "OP": "?"}, 
+        {"LOWER": "days"}
     ]
     matcher.add("PAYMENT_TERMS", [pattern])
     
