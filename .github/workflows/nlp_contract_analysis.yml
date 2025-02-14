@@ -21,13 +21,9 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install dependencies (if requirements.txt exists)
+      - name: Install dependencies
         run: |
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          else
-            echo "No requirements.txt found, skipping dependency installation."
-          fi
+          pip install -r requirements.txt
 
       - name: Run NLP contract analysis script
         run: python contract_analysis.py
