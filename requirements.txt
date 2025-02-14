@@ -2,3 +2,5 @@ spacy
 pytest
 scikit-learn
 matplotlib
+streamlit
+pandas
