@@ -56,6 +56,9 @@ def extract_payment_terms(text):
     if "days" in text.lower() and "invoice date" in text.lower():
         payment_terms.append("30 days from invoice date")
 
+    # Ensure both amount and currency are captured as a single string
+    payment_terms = [term.replace(',', '') for term in payment_terms]
+
     return payment_terms
 
 
