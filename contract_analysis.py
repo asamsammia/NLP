@@ -14,12 +14,10 @@ def extract_named_entities(text):
         entity_dict[ent.label_].append(ent.text)
     return entity_dict
 
-
 def extract_key_clauses(text):
     """Extract key sentences containing contract-related terms."""
     doc = nlp(text)
     return [sent.text for sent in doc.sents if "agreement" in sent.text.lower() or "contract" in sent.text.lower()]
-
 
 def extract_payment_terms(text):
     """Extract payment terms from a contract text."""
@@ -47,27 +45,27 @@ def extract_payment_terms(text):
     for _, start, end in matches:
         payment_terms.append(doc[start:end].text)
     
-    # Check for general money-related terms like "$5,000"
+    # Check for monetary values (e.g., $5,000)
     for ent in doc.ents:
         if ent.label_ == "MONEY":
-            payment_terms.append(ent.text)
+            if not ent.text.startswith("$"):
+                ent_text = f"${ent.text}"  
+            else:
+                ent_text = ent.text
+            payment_terms.append(ent_text)
     
     # Add full phrases like '30 days from invoice date'
     if "days" in text.lower() and "invoice date" in text.lower():
         payment_terms.append("30 days from invoice date")
 
-    # Ensure both amount and currency are captured as a single string
-    payment_terms = [term.replace(',', '') for term in payment_terms]
-
     return payment_terms
-
 
 # Sample contract text
 document_text = """
 This agreement is made between ABC Corp and XYZ Ltd on January 1, 2025.
 The contract is valid for a period of two years, ending on December 31, 2026.
 ABC Corp shall provide software development services to XYZ Ltd.
-Payment terms are net 30 days from invoice date.
+Payment terms are net 30 days from invoice date. The total amount due is $5,000.
 """
 
 # Running functions
