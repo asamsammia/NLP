@@ -1,1 +1,1 @@
-echo "spacy" >> requirements.txt
+spacy
