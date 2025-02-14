@@ -33,4 +33,4 @@ jobs:
         run: python contract_analysis.py
 
       - name: Run unit tests
-        run: pytest tests/
+        run: PYTHONPATH=$PWD pytest tests/
