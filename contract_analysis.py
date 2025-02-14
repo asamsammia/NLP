@@ -1,5 +1,7 @@
 import spacy
 from spacy.matcher import Matcher
+from sklearn.metrics import classification_report
+
 
 # Load SpaCy's pre-trained NLP model
 nlp = spacy.load("en_core_web_sm")
@@ -77,3 +79,37 @@ print(extract_key_clauses(document_text))
 
 print("\nPayment Terms:")
 print(extract_payment_terms(document_text))
+
+
+# Sample contract texts & expected outputs
+test_cases = [
+    {"text": "The payment of $10,000 is due within 15 days.", "expected": "PAYMENT"},
+    {"text": "This contract is effective from March 1, 2023.", "expected": "DATE"},
+]
+
+# Store actual & predicted labels
+y_true, y_pred = [], []
+
+def classify_text(text):
+    doc = nlp(text)
+    for ent in doc.ents:
+        if ent.label_ in ["MONEY", "DATE"]:
+            return ent.label_
+    return "OTHER"
+
+# Run tests & collect predictions
+for case in test_cases:
+    y_true.append(case["expected"])
+    y_pred.append(classify_text(case["text"]))
+
+# Compute performance metrics
+report = classification_report(y_true, y_pred, output_dict=True)
+accuracy = report["accuracy"]
+f1_score = report["weighted avg"]["f1-score"]
+
+# Log results
+with open("log_performance.txt", "w") as f:
+    f.write(f"Model Accuracy: {accuracy:.2f}\n")
+    f.write(f"F1 Score: {f1_score:.2f}\n")
+
+print("Performance logged in log_performance.txt")

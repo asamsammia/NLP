@@ -34,3 +34,9 @@ jobs:
 
       - name: Run unit tests
         run: PYTHONPATH=$PWD pytest tests/
+        
+      - name: Run NLP model & log performance
+        run: |
+          python contract_analysis.py
+          cat log_performance.txt
+    
