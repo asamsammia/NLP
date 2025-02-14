@@ -28,3 +28,7 @@ jobs:
       - name: Run NLP contract analysis script
         run: |
           python contract_analysis.py
+
+            - name: Run unit tests
+    run: |
+      pytest tests/
