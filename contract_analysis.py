@@ -1,5 +1,3 @@
-python3 -m pip install spacy
-
 import spacy
 
 # Load SpaCy's pre-trained NLP model
