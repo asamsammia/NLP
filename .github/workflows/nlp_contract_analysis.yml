@@ -54,3 +54,5 @@ jobs:
       - name: Run Streamlit App (Test Mode)
         run: streamlit run app.py --server.headless true &
       
+      - name: Download spaCy model
+        run: python -m spacy download en_core_web_sm
