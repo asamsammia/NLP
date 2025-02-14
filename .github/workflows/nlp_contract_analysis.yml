@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4  # Updated to latest version
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -43,7 +43,7 @@ jobs:
         run: python contract_analysis.py
 
       - name: Upload performance chart
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4  
         with:
           name: Performance Chart
           path: performance_chart.png
