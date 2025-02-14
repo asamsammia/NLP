@@ -35,7 +35,8 @@ def extract_payment_terms(text):
         {"IS_PUNCT": True, "OP": "?"}, 
         {"LOWER": "days"}
     ]
-    matcher.add("PAYMENT_TERMS", [pattern])
+    
+    matcher.add("PAYMENT_TERMS", [payment_pattern])
     
     # Apply matcher to the document
     matches = matcher(doc)
@@ -51,13 +52,6 @@ def extract_payment_terms(text):
             payment_terms.append(ent.text)
     
     return payment_terms
-    
-    # Check for more general terms in the text
-    if "days" in text.lower():
-        payment_terms.append("30 days from invoice date")
-    
-    return payment_terms
-
 
 # Sample contract text
 document_text = """
