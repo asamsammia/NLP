@@ -1,4 +1,4 @@
-spacy
+spacy[en]
 pytest
 scikit-learn
 matplotlib

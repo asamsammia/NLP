@@ -1,10 +1,16 @@
 import streamlit as st
 import spacy
+import subprocess
 import matplotlib.pyplot as plt
 import pandas as pd
 
-# Load SpaCy model
-nlp = spacy.load("en_core_web_sm")
+# Ensure SpaCy model is downloaded
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    st.warning("Downloading SpaCy model...")
+    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
+    nlp = spacy.load("en_core_web_sm")
 
 # Streamlit App Title
 st.title("📝 NLP Contract Analysis")
@@ -13,7 +19,6 @@ st.title("📝 NLP Contract Analysis")
 uploaded_file = st.file_uploader("Upload a Contract Document (TXT)", type=["txt"])
 
 if uploaded_file is not None:
-    # Read file
     text = uploaded_file.read().decode("utf-8")
     st.subheader("📄 Contract Preview")
     st.text_area("Contract Content", text, height=200)
