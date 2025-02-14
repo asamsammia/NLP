@@ -4,3 +4,6 @@ headless = true
 port = 8501
 cacheEnabled = true
 maxThreads = 5
+
+[global]
+useServer = true
