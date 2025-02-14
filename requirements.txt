@@ -1,5 +1,5 @@
 spacy
-spacy[en]
+spacy-model-en_core_web_sm
 pytest
 scikit-learn
 matplotlib
