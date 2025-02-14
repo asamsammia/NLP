@@ -1,5 +1,5 @@
-spacy[en]
 spacy
+spacy[en]
 pytest
 scikit-learn
 matplotlib

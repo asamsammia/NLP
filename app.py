@@ -1,19 +1,18 @@
 import streamlit as st
 import spacy
 import subprocess
-import os
 import matplotlib.pyplot as plt
 import pandas as pd
 
-# Ensure SpaCy model is downloaded
+# Ensure SpaCy model is installed and downloaded
 MODEL_NAME = "en_core_web_sm"
 
-if not os.path.exists(spacy.util.get_package_path(MODEL_NAME)):
-    st.warning("Downloading SpaCy model...")
+try:
+    nlp = spacy.load(MODEL_NAME)
+except OSError:
+    st.warning(f"Downloading SpaCy model: {MODEL_NAME}...")
     subprocess.run(["python", "-m", "spacy", "download", MODEL_NAME])
-
-# Load the model
-nlp = spacy.load(MODEL_NAME)
+    nlp = spacy.load(MODEL_NAME)
 
 # Streamlit App Title
 st.title("📝 NLP Contract Analysis")
