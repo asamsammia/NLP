@@ -1,7 +1,28 @@
 import spacy
+from spacy.matcher import Matcher
 
 # Load SpaCy's pre-trained NLP model
 nlp = spacy.load("en_core_web_sm")
+
+def extract_named_entities(text):
+    """Extract named entities from a contract text."""
+    doc = nlp(text)
+    return [(ent.text, ent.label_) for ent in doc.ents]
+
+def extract_key_clauses(text):
+    """Extract key sentences containing contract-related terms."""
+    doc = nlp(text)
+    return [sent.text for sent in doc.sents if "agreement" in sent.text.lower() or "contract" in sent.text.lower()]
+
+def extract_payment_terms(text):
+    """Extract payment terms using SpaCy’s Matcher."""
+    doc = nlp(text)
+    matcher = Matcher(nlp.vocab)
+    pattern = [{"LOWER": "payment"}, {"LOWER": "terms"}, {"IS_PUNCT": True, "OP": "?"}, {"LOWER": "net"}, {"IS_DIGIT": True}]
+    matcher.add("PAYMENT_TERMS", [pattern])
+    
+    matches = matcher(doc)
+    return [doc[start:end].text for _, start, end in matches]
 
 # Sample contract text
 document_text = """
@@ -11,29 +32,12 @@ ABC Corp shall provide software development services to XYZ Ltd.
 Payment terms are net 30 days from invoice date.
 """
 
-# Process the text
-doc = nlp(document_text)
-
-# Extract named entities
+# Running functions
 print("\nNamed Entities:")
-for ent in doc.ents:
-    print(f"{ent.text} ({ent.label_})")
-
-# Extract key sentences for contract analysis
-important_phrases = [sent.text for sent in doc.sents if "agreement" in sent.text.lower() or "contract" in sent.text.lower()]
+print(extract_named_entities(document_text))
 
 print("\nKey Contract Clauses:")
-for clause in important_phrases:
-    print(clause)
+print(extract_key_clauses(document_text))
 
-# Example of rule-based matching (customization can be added)
-from spacy.matcher import Matcher
-
-matcher = Matcher(nlp.vocab)
-pattern = [{"LOWER": "payment"}, {"LOWER": "terms"}, {"IS_PUNCT": True, "OP": "?"}, {"LOWER": "net"}, {"IS_DIGIT": True}]
-matcher.add("PAYMENT_TERMS", [pattern])
-
-matches = matcher(doc)
 print("\nPayment Terms:")
-for match_id, start, end in matches:
-    print(doc[start:end].text)
+print(extract_payment_terms(document_text))
