@@ -1,3 +1,5 @@
+python3 -m pip install pytest spacy
+
 import spacy
 import pytest
 from contract_analysis import extract_named_entities, extract_payment_terms
