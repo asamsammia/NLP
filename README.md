@@ -1,68 +1,79 @@
-# NLP Contract Analysis with SpaCy & Transformers
+# NLP Contract Analysis
 
-## Overview
-This project demonstrates how to use **Natural Language Processing (NLP)** to analyze legal contracts. Using **SpaCy, Transformers, and Python**, we extract key clauses and automate contract review.
+## 📌 Overview
+This repository contains a **Natural Language Processing (NLP) project** focused on analyzing legal contracts. Using **SpaCy, Transformers, and Python**, we automate the extraction of key clauses, named entities, and payment terms to streamline contract review processes.
 
-## Features
-✅ Named Entity Recognition (NER) for legal terms  
-✅ Clause classification using Machine Learning  
-✅ Automated text preprocessing and tokenization  
-✅ Visualization of contract structures  
+## 🚀 Features
+- **Named Entity Recognition (NER):** Identifies companies, dates, and contract-specific terms.
+- **Clause Classification:** Extracts important legal clauses using NLP models.
+- **Rule-Based Matching:** Detects payment terms and obligations.
+- **Data Visualization:** Displays named entity distributions using Matplotlib.
 
-## Tech Stack
+## 🛠️ Tech Stack
 - **Programming Language:** Python
-- **NLP Frameworks:** SpaCy, Transformers (Hugging Face)
-- **Libraries:** Pandas, Scikit-learn, Matplotlib
+- **NLP Libraries:** SpaCy, Transformers
+- **Data Processing:** Pandas, Scikit-learn
+- **Visualization:** Matplotlib
 
-## Installation
+## 📂 Project Structure
+```
+nlp-contract-analysis/
+│── data/                # Sample contract datasets
+│── notebooks/           # Jupyter Notebook for analysis
+│── scripts/             # Python scripts for NLP processing
+│── README.md            # Project Documentation
+│── requirements.txt     # Dependencies
+```
+
+## 🔧 Installation
+1️⃣ Clone the repository:
 ```bash
-# Clone the repository
 git clone https://github.com/your-username/nlp-contract-analysis.git
 cd nlp-contract-analysis
-
-# Create a virtual environment
+```
+2️⃣ Create a virtual environment and install dependencies:
+```bash
 python -m venv env
 source env/bin/activate  # On Windows use `env\Scripts\activate`
-
-# Install dependencies
 pip install -r requirements.txt
 ```
 
-## Dataset
-- Uses publicly available legal contract datasets
-- Preprocessed for entity recognition and classification
-
-## Usage
+## 🏃 Usage
 ```python
 from spacy.lang.en import English
 import spacy
 
-# Load NLP Model
 nlp = spacy.load("en_core_web_sm")
-
-# Process a sample contract
 text = "This agreement is made between Party A and Party B effective January 1, 2025."
 doc = nlp(text)
 
-# Extract Named Entities
 for ent in doc.ents:
     print(ent.text, ent.label_)
 ```
-
-## Expected Output
+**Expected Output:**
 ```
-Party A ORG
-Party B ORG
-January 1, 2025 DATE
+Party A (ORG)
+Party B (ORG)
+January 1, 2025 (DATE)
 ```
 
-## Next Steps
-🔹 Expand entity recognition with custom NER models  
-🔹 Train a transformer-based model for clause classification  
-🔹 Deploy as a REST API for automated document analysis  
+## 📊 Visualization
+To analyze entity distribution:
+```python
+plt.figure(figsize=(8, 4))
+df_entities["Label"].value_counts().plot(kind="bar", color="skyblue")
+plt.title("Named Entity Distribution")
+plt.xlabel("Entity Type")
+plt.ylabel("Count")
+plt.show()
+```
 
-## Contributing
-Feel free to **fork** this repo, open **issues**, and submit **pull requests**!
+## 🎯 Next Steps
+- Fine-tune a **Transformer-based NER model** for better accuracy.
+- Deploy the model as an API for **automated contract analysis**.
 
-## License
+## 📜 License
 MIT License
+
+---
+🚀 *Feel free to fork, contribute, and open issues!*
