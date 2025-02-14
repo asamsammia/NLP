@@ -28,23 +28,22 @@ jobs:
       - name: Download spaCy model
         run: python -m spacy download en_core_web_sm
 
-
       - name: Run NLP contract analysis script
         run: python contract_analysis.py
 
       - name: Run unit tests
         run: PYTHONPATH=$PWD pytest tests/
-        
+
       - name: Run NLP model & log performance
         run: |
           python contract_analysis.py
           cat log_performance.txt
 
       - name: Generate performance chart
-          run: python contract_analysis.py
-  
+        run: python contract_analysis.py
+
       - name: Upload performance chart
-          uses: actions/upload-artifact@v3
-          with:
-            name: Performance Chart
-            path: performance_chart.png
+        uses: actions/upload-artifact@v3
+        with:
+          name: Performance Chart
+          path: performance_chart.png
