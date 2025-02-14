@@ -39,4 +39,12 @@ jobs:
         run: |
           python contract_analysis.py
           cat log_performance.txt
-    
+
+      - name: Generate performance chart
+    run: python contract_analysis.py
+
+      - name: Upload performance chart
+    uses: actions/upload-artifact@v3
+    with:
+      name: Performance Chart
+      path: performance_chart.png

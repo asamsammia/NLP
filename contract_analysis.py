@@ -1,7 +1,10 @@
 import spacy
 import sklearn
+import matplotlib.pyplot as plt
+
 from spacy.matcher import Matcher
 from sklearn.metrics import classification_report
+
 
 
 # Load SpaCy's pre-trained NLP model
@@ -114,3 +117,29 @@ with open("log_performance.txt", "w") as f:
     f.write(f"F1 Score: {f1_score:.2f}\n")
 
 print("Performance logged in log_performance.txt")
+
+
+# Extract precision, recall, and F1-score
+precision = report["weighted avg"]["precision"]
+recall = report["weighted avg"]["recall"]
+f1_score = report["weighted avg"]["f1-score"]
+
+# Create a bar chart
+metrics = ["Precision", "Recall", "F1-Score"]
+values = [precision, recall, f1_score]
+
+plt.figure(figsize=(6, 4))
+plt.bar(metrics, values, color=["blue", "green", "red"])
+plt.ylim(0, 1)  # Set y-axis limit to 1
+plt.xlabel("Metrics")
+plt.ylabel("Score")
+plt.title("NLP Model Performance")
+plt.text(0, precision + 0.02, f"{precision:.2f}", ha="center")
+plt.text(1, recall + 0.02, f"{recall:.2f}", ha="center")
+plt.text(2, f1_score + 0.02, f"{f1_score:.2f}", ha="center")
+
+# Save the plot
+plt.savefig("performance_chart.png")
+plt.show()
+
+print("Performance chart saved as performance_chart.png")
