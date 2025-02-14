@@ -3,8 +3,12 @@ import spacy
 import matplotlib.pyplot as plt
 import pandas as pd
 
-# Load SpaCy model (it should already be installed)
-nlp = spacy.load("en_core_web_sm")
+# Try loading the SpaCy model
+try:
+    nlp = spacy.load("en_core_web_sm")
+except IOError:
+    st.error("SpaCy model 'en_core_web_sm' not found. Please install it by running: python -m spacy download en_core_web_sm")
+    st.stop()
 
 # Streamlit App Title
 st.title("📝 NLP Contract Analysis")
